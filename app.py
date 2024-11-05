@@ -1,15 +1,12 @@
 import os
-
-#from dotenv import load_dotenv
-
+from dotenv import load_dotenv
 from flask import Flask
-
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-#from flask_jwt_extended import (
-#    JWTManager,
-#)
-#from flask_marshmallow import Marshmallow
+from flask_jwt_extended import (
+    JWTManager,
+)
+from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
 
@@ -22,11 +19,15 @@ app.config['SECRET_KEY'] = os.environ.get(
     'SECRET_KEY'
 )
 
-#db = SQLAlchemy(app)
-#migrate = Migrate(app, db)
-#jwt = JWTManager(app)
-#ma = Marshmallow(app)
 
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+jwt = JWTManager(app)
+ma = Marshmallow(app)
+
+
+from models import User
 #from views import register_blueprints
 #register_blueprints(app)
 

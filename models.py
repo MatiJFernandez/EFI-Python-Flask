@@ -1,5 +1,4 @@
 from app import db
-#from datetime import datetime
 
 class Marca(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,4 +27,3 @@ class User(db.Model):
     password_hash = db.Column(db.String(300), nullable=False)
     is_admin = db.Column(db.Boolean(0))
 
-    
