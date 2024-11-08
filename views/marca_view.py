@@ -29,15 +29,12 @@ def marcas():
     if request.method == 'POST':
         data = request.get_json()  
         nombre = data.get('nombre') 
-        modelo = data.get('modelo') 
 
         if not nombre:
             return jsonify({"Mensaje": "El nombre de la marca es obligatorio"}), 400
 
-        if not modelo:
-            return jsonify({"Mensaje": "El modelo de la marca es obligatorio"}), 400
         
-        nueva_marca = marca_service.create(nombre, modelo)
+        nueva_marca = marca_service.create(nombre)
         marca_schema = MarcaSchema()
 
         # Devolver directamente una respuesta JSON en lugar de hacer una redirección
@@ -59,15 +56,10 @@ def marcas_editar(id):
 
     if request.method == 'PUT':
         nombre = request.json.get('nombre')
-        modelo = request.json.get('modelo')
         
         if not nombre:
             return jsonify({"Mensaje": "El campo 'nombre' es obligatorio"}), 400
         marca.nombre = nombre
-
-        if not modelo:
-            return jsonify({"Mensaje": "El campo 'modelo' es obligatorio"}), 400
-        marca.modelo = modelo
         
         db.session.commit()
 

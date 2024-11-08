@@ -1,8 +1,5 @@
 from flask_wtf import FlaskForm
 from wtforms import (
-    DecimalField,
-    IntegerField,
-    SelectField,
     StringField,
     SubmitField,
 )
@@ -19,12 +16,12 @@ class MarcaForm(FlaskForm):
         render_kw={"class": "form-control", "placeholder": "Nombre"}
     )
 
-    # Campo para el contacto del proveedor (por ejemplo, teléfono o correo)
-    modelo = StringField(
-        'Modelo',
-        validators=[Length(min=3, max=50), DataRequired()],
-        render_kw={"class": "form-control", "placeholder": "Modelo"}
-    )
+    # # Campo para el contacto del proveedor (por ejemplo, teléfono o correo)
+    # modelo = StringField(
+    #     'Modelo',
+    #     validators=[Length(min=3, max=50), DataRequired()],
+    #     render_kw={"class": "form-control", "placeholder": "Modelo"}
+    # )
 
     # Botón de envío
     submit = SubmitField(

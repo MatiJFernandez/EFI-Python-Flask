@@ -7,18 +7,17 @@ class MarcaService:
     def get_all(self):
         return self._marca_repository.get_all()
 
-    def create(self, nombre, modelo):
-        return self._marca_repository.create(nombre, modelo)
+    def create(self, nombre):
+        return self._marca_repository.create(nombre)
 
     def get_by_id(self, id):
         return self._marca_repository.get_by_id(id)
 
-    def update(self, id, nombre, modelo):
+    def update(self, id, nombre):
         marca = self._marca_repository.get_by_id(id)
         if not marca:
             raise Exception("Marca no encontrada")
         marca.nombre = nombre
-        marca.modelo = modelo
         self._marca_repository.update(marca)
         return marca
     

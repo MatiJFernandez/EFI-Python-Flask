@@ -26,7 +26,6 @@ class MarcaSchema(ma.SQLAlchemySchema):
 
     id=ma.auto_field()
     nombre=ma.auto_field()
-    modelo=ma.auto_field()
 
 class CelularSchema(ma.SQLAlchemySchema):
     class Meta:
