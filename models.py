@@ -23,9 +23,7 @@ class Marca(db.Model):
 class Accesorio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), nullable=False)
-
-    celulares = db.relationship('Celular_Accesorio', back_populates='accesorio', lazy=True)
-
+    
     def __str__(self):
         return self.nombre
 
@@ -36,3 +34,9 @@ class User(db.Model):
     password_hash = db.Column(db.String(300), nullable=False)
     is_admin = db.Column(db.Boolean(0), default=False)
 
+    def to_dict(self):
+        return dict(
+            username= self.username,
+            password= self.password_hash
+        )
+    
