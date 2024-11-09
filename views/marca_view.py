@@ -6,7 +6,7 @@ from models import  Marca
 from schemas import MarcaSchema 
 from services.marca_service import MarcaService
 from repositories.marca_repositories import MarcaRepositories
-from forms import MarcaForm
+#from forms import MarcaForm
 
 marca_bp = Blueprint('marca', __name__)
 
@@ -37,11 +37,10 @@ def marcas():
         nueva_marca = marca_service.create(nombre)
         marca_schema = MarcaSchema()
 
-        # Devolver directamente una respuesta JSON en lugar de hacer una redirección
         return jsonify({
             "Mensaje": "Marca creada exitosamente",
             "marca": marca_schema.dump(nueva_marca)
-        }), 201
+        }), 201 
 
 @marca_bp.route("/marcas/<id>/editar", methods=['PUT'])
 @jwt_required()
@@ -67,7 +66,7 @@ def marcas_editar(id):
         marca_serializada = marca_schema.dump(marca)
 
         return jsonify({
-            "Mensaje": "El marca esta editado con éxito",
+            "Mensaje": "La marca esta editada con éxito",
             'marca': marca_serializada
         }), 200
 
@@ -87,7 +86,7 @@ def delete_marca(id):
 
     marca = Marca.query.get(id)
     if not marca:
-        return jsonify({"Mensaje": "Marca no encontrado"}), 404
+        return jsonify({"Mensaje": "Marca no encontrada"}), 404
 
     try:
         db.session.delete(marca)

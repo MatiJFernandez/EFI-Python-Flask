@@ -5,14 +5,20 @@ from models import  Accesorio
 from schemas import AccesorioSchema 
 from services.accesorio_service import AccesorioService
 from repositories.accesorio_repositories import AccesorioRepositories
-from forms import AccesorioForm 
+#from forms import AccesorioForm 
 
 accesorio_bp = Blueprint('accesorio', __name__) 
 
 @accesorio_bp.route('/accesorios_list', methods=['GET'])
-def accesorioss_list():
-    accesorios = Accesorio.query.all()
-    return AccesorioSchema().dump(accesorios, many=True)
+@jwt_required()
+def accesorios_list():
+    accesorios_services = AccesorioService(AccesorioRepositories())
+    accesorios = accesorios_services.get_all()
+
+    accesorio_schema = AccesorioSchema(many=True)
+    accesorios_serializados = accesorio_schema.dump(accesorios) 
+
+    return jsonify({'accesorios': accesorios_serializados})
 
 @accesorio_bp.route('/accesorios', methods=['POST', 'GET'])
 @jwt_required()
@@ -28,21 +34,17 @@ def accesorios():
     if request.method == 'POST':
         data = request.get_json()  
         nombre = data.get('nombre') 
-        modelo = data.get('modelo') 
+        
 
         if not nombre:
-            return jsonify({"Mensaje": "El nombre de la accesorio es obligatorio"}), 400
+            return jsonify({"Mensaje": "El nombre del accesorio es obligatorio"}), 400
 
-        if not modelo:
-            return jsonify({"Mensaje": "El modelo de la accesorio es obligatorio"}), 400
-        
-        nueva_accesorio = accesorio_service.create(nombre, modelo)
+        nuevo_accesorio = accesorio_service.create(nombre)
         accesorio_schema = AccesorioSchema()
 
-        # Devolver directamente una respuesta JSON en lugar de hacer una redirección
         return jsonify({
-            "Mensaje": "accesorio creada exitosamente",
-            "accesorio": accesorio_schema.dump(nueva_accesorio)
+            "Mensaje": "accesorio creado exitosamente",
+            "accesorio": accesorio_schema.dump(nuevo_accesorio)
         }), 201
 
 @accesorio_bp.route("/accesorios/<id>/editar", methods=['PUT'])
@@ -58,16 +60,12 @@ def accesorios_editar(id):
 
     if request.method == 'PUT':
         nombre = request.json.get('nombre')
-        modelo = request.json.get('modelo')
+        
         
         if not nombre:
             return jsonify({"Mensaje": "El campo 'nombre' es obligatorio"}), 400
         accesorio.nombre = nombre
 
-        if not modelo:
-            return jsonify({"Mensaje": "El campo 'modelo' es obligatorio"}), 400
-        accesorio.modelo = modelo
-        
         db.session.commit()
 
         accesorio_schema = AccesorioSchema()

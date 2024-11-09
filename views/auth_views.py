@@ -9,7 +9,6 @@ from werkzeug.security import (
     check_password_hash,
     generate_password_hash
 )
-
 from app import db
 from models import User
 from schemas import UserSchema, UserMinimalSchema
@@ -85,4 +84,52 @@ def users():
 
     return jsonify(usuarios_dict)
 
+@auth_bp.route('/users/<int:id>/delete', methods=['DELETE'])
+@jwt_required()
+def delete_users(id):
+    additional_data = get_jwt()
+    administrador = additional_data.get('administrador')
+
+    if not administrador:
+        return jsonify({"Mensaje":"Solo el admin puede eliminar usuarios"})
+    
+    usuario = User.query.get(id)
+    if not usuario:
+        return jsonify({"Mensaje":"Usuario no encontrado"}), 404 
+
+    try:
+        db.session.delete(usuario)
+        db.session.commit()
+        return jsonify({"Mensaje":"Usuario eliminado correctamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"Mensaje":"Fallo al eliminar el usuario", "Error": str(e)}), 500 
+    
+@auth_bp.route('/users/<int:id>/update', methods=['PUT'])
+@jwt_required()
+def update_user(id):
+    additional_data = get_jwt()
+    administrador = additional_data.get('administrador')
+
+    if administrador is not True:
+        return jsonify({"Mensaje":"No tienes permiso para actualizar"})
+    
+    data = request.get_json()
+    username = data.get('usuario')
+    password = data.get('contrasenia')
+
+    try:
+        user = User.query.get(id)
+        if not user:
+            return jsonify({"Mensaje":"Usuario no encontrado"}), 404
+        
+        user.username = username if username else user.username
+        user.password_hash = generate_password_hash(password) if password else user.password_hash
+
+        db.session.commit()
+        return jsonify({"Mesnaje":"Usuario actualizado correctamente", "Usuario" : user.to_dict()}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"Mensaje":"Error al actualizar el usuario: " + str(e)}), 500
+    
     
