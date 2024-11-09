@@ -41,11 +41,8 @@ Cuerpo de la solicitud:
 Respuesta:
 ```json 
 {
-  "Mensaje": "Usuario creado correctamente",
-  "Usuario": {
-    "username": "usuario nuevo",
-    "is_admin": false
-  }
+  "Mensaje":"Usuario creado correctamente",
+  "Usuario": "nuevo_usuario"
 }
 ```
 Mensajes de error:  
@@ -89,6 +86,7 @@ Respuesta:
     }   
 ```
 Mas mensajes de error:   
+    `400`: El campo 'nombre' es obligatorio
     `403 Forbidden`: No está autorizado para crear marcas.  
     `500 Internal Server Error`: Error interno del servidor al procesar la solicitud.
  
@@ -206,6 +204,8 @@ Mensaje de error:
     "403 Forbidden": "No está autorizado para crear accesorios"
 }
 ```
+
+##### MÉTODO PUT: 
 Endpoint : /accesorios/<id>/editar
 
 Respuesta: 
@@ -217,21 +217,23 @@ Respuesta:
 Mensaje de error: 
 ```json
 {
-    "403 Forbidden": "No está autorizado para eliminar accesorio."
+    "403 Forbidden": "No está autorizado para editar accesorio."
 }
 ```
-Endpoint : /accesorio/ID del accesorio a editar/editar
+
+##### MÉTODO DELETE: 
+Endpoint : /accesorio/ID del accesorio a editar/delete
 
 Respuesta: 
 ```json
 {
-  "200 OK":"Accesorio actualizado exitosamente"
+  "200 OK":"Accesorio eliminado correctamente"
 }
 ```
 Mensaje de error: 
 ```json
 {
-    "403 Forbidden": "No está autorizado para editar accesorio"
+    "403 Forbidden": "Solo el administrador puede eliminar accesorios"
 }
 ```
 
@@ -351,7 +353,7 @@ Respuesta:
         "Otra"
       ]
     ],
-    "telefonos": [
+    "celulares": [
       {
         "anio_fabricacion": 2023,
         "id": 1,
