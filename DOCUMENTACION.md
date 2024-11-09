@@ -259,7 +259,6 @@ Respuesta:
 }
 ```
 
-
 #### CELULAR: 
 
 
@@ -368,16 +367,6 @@ Respuesta:
         }
       }
     ],
-    "tipos": [
-      [
-        1,
-        "Gama alta"
-      ],
-      [
-        3,
-        "Gama baja"
-      ]
-    ]
   }
 }
 ```
