@@ -131,5 +131,3 @@ def update_user(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"Mensaje":"Error al actualizar el usuario: " + str(e)}), 500
-    
-    

@@ -32,7 +32,7 @@ from flask_marshmallow import Marshmallow
 from dotenv import load_dotenv
 load_dotenv()
 
-app = Flask(__name__) 
+app = Flask(__name__, template_folder='templates')
 CORS(app)
 #Configuracion
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
@@ -57,3 +57,5 @@ register_blueprint(app)
 @app.route("/")
 def index():
     return render_template('index.html')
+
+

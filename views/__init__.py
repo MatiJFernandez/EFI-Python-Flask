@@ -1,4 +1,3 @@
-
 from .auth_views import auth_bp
 from .celulares_view import celular_bp
 from .marca_view import marca_bp
